@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/WarehouseManager.gd" id="1_warehouse_mgr"]
+[ext_resource type="Script" path="res://scenes/warehouse/WarehouseVisuals.gd" id="2_warehouse_visuals"]
+
+[node name="Warehouse" type="Node2D"]
+script = ExtResource("1_warehouse_mgr")
+
+[node name="WarehouseVisuals" type="Node2D" parent="."]
+script = ExtResource("2_warehouse_visuals")

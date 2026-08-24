@@ -1,0 +1,111 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/UIManager.gd" id="1_ui_mgr"]
+[ext_resource type="PackedScene" path="res://scenes/ui/RobotPanel.tscn" id="2_robot_panel"]
+[ext_resource type="PackedScene" path="res://scenes/ui/Dashboard.tscn" id="3_dashboard"]
+[ext_resource type="PackedScene" path="res://scenes/ui/ConflictOverlay.tscn" id="4_conflict_overlay"]
+
+[node name="MainUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_ui_mgr")
+
+[node name="TopBar" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
+
+[node name="HBox" type="HBoxContainer" parent="TopBar"]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="TopBar/HBox"]
+layout_mode = 2
+text = "P-DMAPF  |  WAREHOUSE DIGITAL TWIN  "
+
+[node name="BtnDemoMode" type="Button" parent="TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "⚡ HACKATHON DEMO MODE"
+
+[node name="VSeparator1" type="VSeparator" parent="TopBar/HBox"]
+layout_mode = 2
+
+[node name="BtnStartAll" type="Button" parent="TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "START ALL"
+
+[node name="BtnPause" type="Button" parent="TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "PAUSE"
+
+[node name="BtnReset" type="Button" parent="TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "RESET"
+
+[node name="VSeparator2" type="VSeparator" parent="TopBar/HBox"]
+layout_mode = 2
+
+[node name="BtnModeSelect" type="Button" parent="TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SELECT"
+
+[node name="BtnBlockAisle" type="Button" parent="TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "🚧 BLOCK AISLE"
+
+[node name="BtnAddRobot" type="Button" parent="TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+ ADD ROBOT"
+
+[node name="OptScenarios" type="OptionButton" parent="TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ChkDebugMode" type="CheckButton" parent="TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "DEBUG MODE"
+
+[node name="ConflictOverlay" parent="." instance=ExtResource("4_conflict_overlay")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="RobotPanel" parent="." instance=ExtResource("2_robot_panel")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = 65.0
+offset_right = 275.0
+offset_bottom = -15.0
+grow_vertical = 2
+
+[node name="Dashboard" parent="." instance=ExtResource("3_dashboard")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -255.0
+offset_top = 65.0
+offset_right = -15.0
+offset_bottom = -15.0
+grow_horizontal = 0
+grow_vertical = 2

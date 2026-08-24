@@ -1,0 +1,67 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://scenes/main/Main.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/core/WarehouseManager.gd" id="2_warehouse_mgr"]
+[ext_resource type="Script" path="res://scripts/graph/GraphManager.gd" id="3_graph_mgr"]
+[ext_resource type="Script" path="res://scripts/core/RobotManager.gd" id="4_robot_mgr"]
+[ext_resource type="Script" path="res://scripts/core/TaskManager.gd" id="5_task_mgr"]
+[ext_resource type="Script" path="res://scripts/coordination/CoordinationManager.gd" id="6_coordination_mgr"]
+[ext_resource type="Script" path="res://scripts/core/MetricsManager.gd" id="7_metrics_mgr"]
+[ext_resource type="Script" path="res://scripts/core/SimulationManager.gd" id="8_sim_mgr"]
+[ext_resource type="Script" path="res://scripts/core/ScenarioManager.gd" id="9_scenario_mgr"]
+[ext_resource type="Script" path="res://scripts/debug/DebugManager.gd" id="10_debug_mgr"]
+[ext_resource type="Script" path="res://scripts/editor/InputController.gd" id="11_input_controller"]
+[ext_resource type="PackedScene" path="res://scenes/ui/MainUI.tscn" id="12_ui"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="WarehouseManager" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_warehouse_mgr")
+
+[node name="GraphManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_graph_mgr")
+
+[node name="RobotManager" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_robot_mgr")
+
+[node name="TaskManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_task_mgr")
+
+[node name="CoordinationManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("6_coordination_mgr")
+
+[node name="MetricsManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("7_metrics_mgr")
+
+[node name="SimulationManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("8_sim_mgr")
+
+[node name="ScenarioManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("9_scenario_mgr")
+
+[node name="DebugManager" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("10_debug_mgr")
+
+[node name="InputController" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("11_input_controller")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+
+[node name="CanvasLayerUI" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="UI" parent="CanvasLayerUI" instance=ExtResource("12_ui")]
+unique_name_in_owner = true
