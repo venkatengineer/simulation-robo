@@ -17,7 +17,7 @@ func _ready() -> void:
 		push_error("Critical UI or Manager nodes missing in Main scene.")
 		return
 
-	# 1. Initialize Graph & Managers
+	# 1. Initialize Graph & Robot Managers
 	graph_manager.load_industrial_warehouse_graph()
 	robot_manager.initialize(graph_manager)
 	
@@ -32,19 +32,23 @@ func _ready() -> void:
 	if scenario_manager:
 		scenario_manager.initialize(warehouse_manager, graph_manager, robot_manager, simulation_manager)
 		scenario_manager.conflict_alert_triggered.connect(_on_conflict_alert_triggered)
-
-	if debug_manager:
-		var res_mgr = coordination_manager.reservation_manager if coordination_manager else null
-		debug_manager.setup(
-			graph_manager,
-			robot_manager,
-			simulation_manager.comm_manager,
-			res_mgr
-		)
+		scenario_manager.demo_stage_announced.connect(_on_demo_stage_announced)
 
 	if input_controller:
 		input_controller.setup(graph_manager, robot_manager)
 		input_controller.mode_changed.connect(_on_input_mode_changed)
+
+	if debug_manager:
+		var res_mgr = coordination_manager.reservation_manager if coordination_manager else null
+		var deadlock_det = coordination_manager.deadlock_detector if coordination_manager else null
+		debug_manager.setup(
+			graph_manager,
+			robot_manager,
+			simulation_manager.comm_manager,
+			res_mgr,
+			deadlock_det,
+			input_controller
+		)
 
 	# 2. Bind Top Bar UI Signals
 	ui.demo_mode_pressed.connect(_on_demo_mode_pressed)
@@ -55,10 +59,16 @@ func _ready() -> void:
 	ui.scenario_selected.connect(_on_scenario_selected)
 	ui.mode_changed.connect(_on_mode_changed)
 	ui.debug_mode_toggled.connect(_on_debug_mode_toggled)
+	ui.path_visibility_changed.connect(func(mode):
+		if debug_manager:
+			debug_manager.set_path_display_mode(mode)
+	)
+
 
 	robot_manager.robot_selected.connect(_on_robot_selected)
+	simulation_manager.conflict_occurred.connect(_on_conflict_occurred)
 
-	# 3. Bind Robot Panel Signals directly to InputController
+	# 3. Bind Robot Panel Signals
 	var rp = ui.robot_panel
 	if rp:
 		rp.set_start_requested.connect(func(r):
@@ -73,18 +83,24 @@ func _ready() -> void:
 			else:
 				input_controller.set_mode(InputController.InteractionMode.SET_GOAL)
 		)
-		rp.plan_requested.connect(func(r): simulation_manager.plan_path_for_robot(r))
 		rp.start_robot_requested.connect(func(r):
-			simulation_manager.plan_path_for_robot(r)
 			simulation_manager.is_running = true
+			simulation_manager.plan_path_for_robot(r)
+			r.set_state(RobotAgent.RobotState.MOVING)
+			if ui: ui.set_simulation_running(true)
 		)
+
 		rp.manual_control_toggled.connect(func(r, en): r.set_manual_control(en))
-		rp.fail_robot_requested.connect(func(r): r.fail())
+		rp.fail_robot_requested.connect(func(r):
+			r.fail()
+			if task_manager:
+				task_manager.handle_robot_failure(r.config.robot_id, robot_manager, simulation_manager)
+		)
 		rp.delete_robot_requested.connect(func(r): robot_manager.delete_robot(r.config.robot_id))
 
 	simulation_manager.simulation_ticked.connect(_on_simulation_ticked)
 
-	# 4. Load Scenario 2 (Intersection Conflict) for immediate demo readiness
+	# 4. Default to Scenario 2 (Intersection Conflict) for immediate demo readiness
 	if scenario_manager:
 		scenario_manager.load_scenario(2)
 
@@ -134,9 +150,17 @@ func _on_debug_mode_toggled(enabled: bool) -> void:
 	if input_controller:
 		input_controller.show_input_debug = enabled
 
-func _on_conflict_alert_triggered(robot_a_id: String, priority_a: float, robot_b_id: String, priority_b: float, winner_id: String, loser_id: String) -> void:
+func _on_conflict_alert_triggered(robot_a_id: String, priority_a: float, robot_b_id: String, priority_b: float, winner_id: String, loser_id: String, reason: String) -> void:
 	if ui and ui.conflict_overlay:
-		ui.conflict_overlay.show_conflict_alert(robot_a_id, priority_a, robot_b_id, priority_b, winner_id, loser_id)
+		ui.conflict_overlay.show_conflict_alert(robot_a_id, priority_a, robot_b_id, priority_b, winner_id, loser_id, reason)
+
+func _on_conflict_occurred(robot_a_id: String, priority_a: float, robot_b_id: String, priority_b: float, winner_id: String, loser_id: String, reason: String) -> void:
+	if ui and ui.conflict_overlay and not ui.conflict_overlay.visible:
+		ui.conflict_overlay.show_conflict_alert(robot_a_id, priority_a, robot_b_id, priority_b, winner_id, loser_id, reason)
+
+func _on_demo_stage_announced(stage_num: int, stage_title: String, desc: String) -> void:
+	if ui and ui.conflict_overlay:
+		ui.conflict_overlay.show_demo_stage(stage_title, desc)
 
 func _on_robot_selected(robot: RobotAgent) -> void:
 	if ui and ui.robot_panel:

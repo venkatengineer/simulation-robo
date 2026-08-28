@@ -1,34 +1,62 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/ConflictOverlayController.gd" id="1_conflict_overlay"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_overlay"]
+bg_color = Color(1, 1, 1, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.88, 0.91, 0.94, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+shadow_color = Color(0, 0, 0, 0.05)
+shadow_size = 6
+shadow_offset = Vector2(0, 2)
+
 [node name="ConflictOverlay" type="PanelContainer"]
-custom_minimum_size = Vector2(480, 80)
+custom_minimum_size = Vector2(440, 64)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -240.0
-offset_top = 65.0
-offset_right = 240.0
-offset_bottom = 145.0
+offset_left = -220.0
+offset_top = 68.0
+offset_right = 220.0
+offset_bottom = 132.0
 grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_overlay")
 script = ExtResource("1_conflict_overlay")
 
 [node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 2
+theme_override_constants/separation = 2
 alignment = 1
 
 [node name="LabelHeader" type="Label" parent="VBox"]
 layout_mode = 2
-text = "⚠️ INTERSECTION CONFLICT DETECTED"
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 12
+text = "CONFLICT DETECTED & RESOLVED"
 horizontal_alignment = 1
 
 [node name="LabelDetails" type="Label" parent="VBox"]
 layout_mode = 2
-text = "R01 (Priority 10) vs R02 (Priority 7)"
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "R01 (Priority 10) ↔ R02 (Priority 6)"
 horizontal_alignment = 1
 
 [node name="LabelDecision" type="Label" parent="VBox"]
 layout_mode = 2
-text = "DECISION: R01 PROCEEDS | R02 YIELDS"
+theme_override_colors/font_color = Color(0.15, 0.39, 0.92, 1)
+theme_override_font_sizes/font_size = 11
+text = "RIGHT OF WAY: R01 PROCEEDS | R02 YIELDS"
 horizontal_alignment = 1
+

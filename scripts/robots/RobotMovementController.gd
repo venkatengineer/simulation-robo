@@ -6,4 +6,8 @@ func apply_movement(robot: RobotAgent, safe_velocity: Vector2, delta: float) -> 
 		return
 
 	robot.velocity = safe_velocity
-	robot.move_and_slide()
+	if robot.is_inside_tree():
+		robot.move_and_slide()
+	else:
+		robot.global_position += safe_velocity * delta
+

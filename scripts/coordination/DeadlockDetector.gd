@@ -5,7 +5,8 @@ signal deadlock_detected(cycle: Array, winner: RobotAgent, losers: Array)
 
 var wait_for_graph: Dictionary = {} # waiting_robot_id -> blocking_robot_id
 var wait_timers: Dictionary = {} # waiting_robot_id -> float
-const WAIT_TIMEOUT: float = 1.5
+var deadlocks_resolved_count: int = 0
+const WAIT_TIMEOUT: float = 1.0
 
 func update_wait_for(waiting_id: String, blocking_id: String, delta: float) -> void:
 	if waiting_id == "" or blocking_id == "" or waiting_id == blocking_id:
@@ -39,7 +40,6 @@ func evaluate_deadlocks(robot_manager: RobotManager) -> void:
 
 func find_all_cycles() -> Array:
 	var detected_cycles = []
-	var visited = {}
 
 	for start_node in wait_for_graph.keys():
 		var path = []
@@ -78,8 +78,7 @@ func resolve_cycle(cycle: Array, robot_manager: RobotManager) -> void:
 		var r = robot_manager.get_robot(r_id)
 		if r and is_instance_valid(r):
 			cycle_robots.append(r)
-			# Effective Priority = Base Priority + 0.5 * Waiting Time
-			var eff_p = r.config.priority + (r.waiting_time * 0.5)
+			var eff_p = float(r.config.priority) + (r.waiting_time * 0.2)
 			if eff_p > highest_eff_priority:
 				highest_eff_priority = eff_p
 				winner = r
@@ -93,6 +92,7 @@ func resolve_cycle(cycle: Array, robot_manager: RobotManager) -> void:
 			losers.append(r)
 
 	if winner and losers.size() > 0:
+		deadlocks_resolved_count += 1
 		deadlock_detected.emit(cycle, winner, losers)
 		# Clear wait entries for resolved cycle
 		for r_id in cycle:

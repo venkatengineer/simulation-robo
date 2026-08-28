@@ -1,114 +1,430 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/RobotPanelController.gd" id="1_robot_panel"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(1, 1, 1, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.88, 0.91, 0.94, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 16.0
+content_margin_top = 14.0
+content_margin_right = 16.0
+content_margin_bottom = 14.0
+shadow_color = Color(0, 0, 0, 0.04)
+shadow_size = 6
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+bg_color = Color(0.97, 0.98, 0.99, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.82, 0.86, 0.9, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0.93, 0.95, 0.98, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.65, 0.72, 0.82, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_start"]
+bg_color = Color(0.15, 0.39, 0.92, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.12, 0.32, 0.78, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_danger"]
+bg_color = Color(0.99, 0.95, 0.95, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.65, 0.65, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+
 [node name="RobotPanel" type="PanelContainer"]
-custom_minimum_size = Vector2(260, 360)
-offset_right = 260.0
-offset_bottom = 360.0
+custom_minimum_size = Vector2(320, 740)
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -345.0
+offset_top = 65.0
+offset_right = -15.0
+offset_bottom = -75.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 script = ExtResource("1_robot_panel")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 2
 
-[node name="Header" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Scroll" type="ScrollContainer" parent="."]
 layout_mode = 2
+horizontal_scroll_mode = 0
 
-[node name="LabelID" type="Label" parent="VBoxContainer/Header"]
+[node name="VBox" type="VBoxContainer" parent="Scroll"]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="Scroll/VBox"]
+layout_mode = 2
+alignment = 0
+
+[node name="LabelID" type="Label" parent="Scroll/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 18
 text = "ROBOT R01"
-horizontal_alignment = 1
 
-[node name="Grid" type="GridContainer" parent="VBoxContainer"]
+[node name="LabelStatusBadge" type="Label" parent="Scroll/VBox/Header"]
+unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.45, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "● READY"
+
+[node name="HSep1" type="HSeparator" parent="Scroll/VBox"]
+layout_mode = 2
+
+[node name="SectionTelemetry" type="Label" parent="Scroll/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "FLEET TELEMETRY"
+
+[node name="Grid" type="GridContainer" parent="Scroll/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 6
 columns = 2
 
-[node name="LabelStatus" type="Label" parent="VBoxContainer/Grid"]
+[node name="LabelStatus" type="Label" parent="Scroll/VBox/Grid"]
 layout_mode = 2
-text = "Status:"
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 12
+text = "State:"
 
-[node name="LabelStatusValue" type="Label" parent="VBoxContainer/Grid"]
+[node name="LabelStatusValue" type="Label" parent="Scroll/VBox/Grid"]
+unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 12
 text = "READY"
 
-[node name="LabelPriority" type="Label" parent="VBoxContainer/Grid"]
+[node name="LabelPriority" type="Label" parent="Scroll/VBox/Grid"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 12
 text = "Priority:"
 
-[node name="SpinPriority" type="SpinBox" parent="VBoxContainer/Grid"]
+[node name="SpinPriority" type="SpinBox" parent="Scroll/VBox/Grid"]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 1.0
 max_value = 20.0
 value = 5.0
 
-[node name="LabelStart" type="Label" parent="VBoxContainer/Grid"]
+[node name="LabelSpeed" type="Label" parent="Scroll/VBox/Grid"]
 layout_mode = 2
-text = "Start:"
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 12
+text = "Speed (px/s):"
 
-[node name="LabelStartValue" type="Label" parent="VBoxContainer/Grid"]
-layout_mode = 2
-text = "N01"
-
-[node name="LabelGoal" type="Label" parent="VBoxContainer/Grid"]
-layout_mode = 2
-text = "Goal:"
-
-[node name="LabelGoalValue" type="Label" parent="VBoxContainer/Grid"]
-layout_mode = 2
-text = "N09"
-
-[node name="LabelSpeed" type="Label" parent="VBoxContainer/Grid"]
-layout_mode = 2
-text = "Speed:"
-
-[node name="SpinSpeed" type="SpinBox" parent="VBoxContainer/Grid"]
+[node name="SpinSpeed" type="SpinBox" parent="Scroll/VBox/Grid"]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 20.0
 max_value = 300.0
 value = 100.0
 
-[node name="LabelPath" type="Label" parent="VBoxContainer/Grid"]
+[node name="LabelStart" type="Label" parent="Scroll/VBox/Grid"]
 layout_mode = 2
-text = "Path:"
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 12
+text = "Start Node:"
 
-[node name="LabelPathValue" type="Label" parent="VBoxContainer/Grid"]
+[node name="LabelStartValue" type="Label" parent="Scroll/VBox/Grid"]
+unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 12
+text = "N01"
+
+[node name="LabelGoal" type="Label" parent="Scroll/VBox/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 12
+text = "Destination:"
+
+[node name="LabelGoalValue" type="Label" parent="Scroll/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 12
+text = "N09"
+
+[node name="LabelBattery" type="Label" parent="Scroll/VBox/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 12
+text = "Battery:"
+
+[node name="LabelBatteryValue" type="Label" parent="Scroll/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.72, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+text = "94%"
+
+[node name="LabelPath" type="Label" parent="Scroll/VBox/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 12
+text = "Route:"
+
+[node name="LabelPathValue" type="Label" parent="Scroll/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.39, 0.92, 1)
+theme_override_font_sizes/font_size = 12
 text = "None"
 
-[node name="BtnSetStart" type="Button" parent="VBoxContainer"]
+[node name="HSep2" type="HSeparator" parent="Scroll/VBox"]
 layout_mode = 2
+
+[node name="SectionIntelligence" type="Label" parent="Scroll/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "LOCAL INTELLIGENCE (EDGE AI)"
+
+[node name="IntelContainer" type="VBoxContainer" parent="Scroll/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="RowSense" type="HBoxContainer" parent="Scroll/VBox/IntelContainer"]
+layout_mode = 2
+
+[node name="LblSense" type="Label" parent="Scroll/VBox/IntelContainer/RowSense"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.2, 0.25, 0.35, 1)
+theme_override_font_sizes/font_size = 11
+text = "SENSE"
+
+[node name="ValSense" type="Label" parent="Scroll/VBox/IntelContainer/RowSense"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.72, 0.5, 1)
+theme_override_font_sizes/font_size = 11
+text = "✓ LiDAR Active"
+
+[node name="RowPredict" type="HBoxContainer" parent="Scroll/VBox/IntelContainer"]
+layout_mode = 2
+
+[node name="LblPredict" type="Label" parent="Scroll/VBox/IntelContainer/RowPredict"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.2, 0.25, 0.35, 1)
+theme_override_font_sizes/font_size = 11
+text = "PREDICT"
+
+[node name="ValPredict" type="Label" parent="Scroll/VBox/IntelContainer/RowPredict"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.72, 0.5, 1)
+theme_override_font_sizes/font_size = 11
+text = "✓ Conflict Horizon"
+
+[node name="RowDecide" type="HBoxContainer" parent="Scroll/VBox/IntelContainer"]
+layout_mode = 2
+
+[node name="LblDecide" type="Label" parent="Scroll/VBox/IntelContainer/RowDecide"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.2, 0.25, 0.35, 1)
+theme_override_font_sizes/font_size = 11
+text = "DECIDE"
+
+[node name="ValDecide" type="Label" parent="Scroll/VBox/IntelContainer/RowDecide"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.72, 0.5, 1)
+theme_override_font_sizes/font_size = 11
+text = "✓ Priority Aging"
+
+[node name="RowShare" type="HBoxContainer" parent="Scroll/VBox/IntelContainer"]
+layout_mode = 2
+
+[node name="LblShare" type="Label" parent="Scroll/VBox/IntelContainer/RowShare"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.2, 0.25, 0.35, 1)
+theme_override_font_sizes/font_size = 11
+text = "SHARE"
+
+[node name="ValShare" type="Label" parent="Scroll/VBox/IntelContainer/RowShare"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.72, 0.5, 1)
+theme_override_font_sizes/font_size = 11
+text = "✓ P2P Broadcast"
+
+[node name="HSep3" type="HSeparator" parent="Scroll/VBox"]
+layout_mode = 2
+
+[node name="SectionComm" type="Label" parent="Scroll/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "CONNECTED PEERS"
+
+[node name="LabelPeersValue" type="Label" parent="Scroll/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.39, 0.92, 1)
+theme_override_font_sizes/font_size = 12
+text = "R02, R03, R05"
+
+[node name="LabelKnowledge" type="Label" parent="Scroll/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 10
+text = "SHARED: ROUTES · CONGESTION · OBSTACLES"
+
+[node name="HSep4" type="HSeparator" parent="Scroll/VBox"]
+layout_mode = 2
+
+[node name="SectionActions" type="Label" parent="Scroll/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "ACTIONS"
+
+[node name="BtnGrid" type="GridContainer" parent="Scroll/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 2
+
+[node name="BtnSetStart" type="Button" parent="Scroll/VBox/BtnGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "SET START"
 
-[node name="BtnSetGoal" type="Button" parent="VBoxContainer"]
+[node name="BtnSetGoal" type="Button" parent="Scroll/VBox/BtnGrid"]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "SET GOAL"
 
-[node name="BtnPlan" type="Button" parent="VBoxContainer"]
+[node name="BtnPlan" type="Button" parent="Scroll/VBox/BtnGrid"]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "PLAN PATH"
 
-[node name="BtnStart" type="Button" parent="VBoxContainer"]
+[node name="BtnStart" type="Button" parent="Scroll/VBox/BtnGrid"]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_start")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_start")
 text = "START ROBOT"
 
-[node name="BtnManual" type="Button" parent="VBoxContainer"]
+[node name="BtnManual" type="Button" parent="Scroll/VBox"]
+unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 toggle_mode = true
-text = "MANUAL CONTROL"
+text = "MANUAL DRIVE (WASD)"
 
-[node name="BtnFail" type="Button" parent="VBoxContainer"]
+[node name="BtnFail" type="Button" parent="Scroll/VBox"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "FAIL ROBOT"
+theme_override_colors/font_color = Color(0.85, 0.15, 0.15, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_danger")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_danger")
+text = "SIMULATE HARDWARE FAILURE"
 
-[node name="BtnDelete" type="Button" parent="VBoxContainer"]
+[node name="BtnDelete" type="Button" parent="Scroll/VBox"]
+unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.15, 0.15, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_danger")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_danger")
 text = "DELETE ROBOT"
 
-[connection signal="value_changed" from="VBoxContainer/Grid/SpinPriority" to="." method="_on_spin_priority_value_changed"]
-[connection signal="pressed" from="VBoxContainer/BtnSetStart" to="." method="_on_btn_set_start_pressed"]
-[connection signal="pressed" from="VBoxContainer/BtnSetGoal" to="." method="_on_btn_set_goal_pressed"]
-[connection signal="pressed" from="VBoxContainer/BtnPlan" to="." method="_on_btn_plan_pressed"]
-[connection signal="pressed" from="VBoxContainer/BtnStart" to="." method="_on_btn_start_pressed"]
-[connection signal="toggled" from="VBoxContainer/BtnManual" to="." method="_on_btn_manual_toggled"]
-[connection signal="pressed" from="VBoxContainer/BtnFail" to="." method="_on_btn_fail_pressed"]
-[connection signal="pressed" from="VBoxContainer/BtnDelete" to="." method="_on_btn_delete_pressed"]
+
+[connection signal="value_changed" from="Scroll/VBox/Grid/SpinPriority" to="." method="_on_spin_priority_value_changed"]
+[connection signal="value_changed" from="Scroll/VBox/Grid/SpinSpeed" to="." method="_on_spin_speed_value_changed"]
+[connection signal="pressed" from="Scroll/VBox/BtnGrid/BtnSetStart" to="." method="_on_btn_set_start_pressed"]
+[connection signal="pressed" from="Scroll/VBox/BtnGrid/BtnSetGoal" to="." method="_on_btn_set_goal_pressed"]
+[connection signal="pressed" from="Scroll/VBox/BtnGrid/BtnPlan" to="." method="_on_btn_plan_pressed"]
+[connection signal="pressed" from="Scroll/VBox/BtnGrid/BtnStart" to="." method="_on_btn_start_pressed"]
+[connection signal="toggled" from="Scroll/VBox/BtnManual" to="." method="_on_btn_manual_toggled"]
+[connection signal="pressed" from="Scroll/VBox/BtnFail" to="." method="_on_btn_fail_pressed"]
+[connection signal="pressed" from="Scroll/VBox/BtnDelete" to="." method="_on_btn_delete_pressed"]
+

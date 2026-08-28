@@ -1,85 +1,252 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/DashboardController.gd" id="1_dashboard"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bottom"]
+bg_color = Color(1, 1, 1, 0.98)
+border_width_top = 1
+border_color = Color(0.88, 0.91, 0.94, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+content_margin_left = 20.0
+content_margin_top = 8.0
+content_margin_right = 20.0
+content_margin_bottom = 8.0
+shadow_color = Color(0, 0, 0, 0.03)
+shadow_size = 4
+shadow_offset = Vector2(0, -2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_collisions_pill"]
+bg_color = Color(0.94, 0.99, 0.96, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.1, 0.72, 0.5, 0.6)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 12.0
+content_margin_bottom = 4.0
+
 [node name="Dashboard" type="PanelContainer"]
-custom_minimum_size = Vector2(240, 220)
-offset_right = 240.0
-offset_bottom = 220.0
+
+custom_minimum_size = Vector2(0, 60)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bottom")
 script = ExtResource("1_dashboard")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
 
-[node name="LabelTitle" type="Label" parent="VBoxContainer"]
+[node name="TileFleet" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
-text = "LIVE DASHBOARD"
+alignment = 1
+
+[node name="LblTotal" type="Label" parent="HBoxContainer/TileFleet"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "FLEET"
 horizontal_alignment = 1
 
-[node name="Grid" type="GridContainer" parent="VBoxContainer"]
+[node name="ValTotalRobots" type="Label" parent="HBoxContainer/TileFleet"]
+unique_name_in_owner = true
 layout_mode = 2
-columns = 2
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 20
+text = "6"
+horizontal_alignment = 1
 
-[node name="LblTotal" type="Label" parent="VBoxContainer/Grid"]
+[node name="VSep1" type="VSeparator" parent="HBoxContainer"]
 layout_mode = 2
-text = "Total Robots:"
 
-[node name="ValTotalRobots" type="Label" parent="VBoxContainer/Grid"]
+[node name="TileMoving" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
+alignment = 1
+
+[node name="LblMoving" type="Label" parent="HBoxContainer/TileMoving"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "MOVING"
+horizontal_alignment = 1
+
+[node name="ValMovingRobots" type="Label" parent="HBoxContainer/TileMoving"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.39, 0.92, 1)
+theme_override_font_sizes/font_size = 20
 text = "0"
+horizontal_alignment = 1
 
-[node name="LblMoving" type="Label" parent="VBoxContainer/Grid"]
+[node name="VSep2" type="VSeparator" parent="HBoxContainer"]
 layout_mode = 2
-text = "Moving:"
 
-[node name="ValMovingRobots" type="Label" parent="VBoxContainer/Grid"]
+[node name="TileWaiting" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
+alignment = 1
+
+[node name="LblWaiting" type="Label" parent="HBoxContainer/TileWaiting"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "WAITING"
+horizontal_alignment = 1
+
+[node name="ValWaitingRobots" type="Label" parent="HBoxContainer/TileWaiting"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.62, 0.04, 1)
+theme_override_font_sizes/font_size = 20
 text = "0"
+horizontal_alignment = 1
 
-[node name="LblWaiting" type="Label" parent="VBoxContainer/Grid"]
+[node name="VSep3" type="VSeparator" parent="HBoxContainer"]
 layout_mode = 2
-text = "Waiting:"
 
-[node name="ValWaitingRobots" type="Label" parent="VBoxContainer/Grid"]
+[node name="TileFailed" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
+alignment = 1
+
+[node name="LblFailed" type="Label" parent="HBoxContainer/TileFailed"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "FAILED"
+horizontal_alignment = 1
+
+[node name="ValFailedRobots" type="Label" parent="HBoxContainer/TileFailed"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.27, 0.27, 1)
+theme_override_font_sizes/font_size = 20
 text = "0"
+horizontal_alignment = 1
 
-[node name="LblFailed" type="Label" parent="VBoxContainer/Grid"]
+[node name="VSep4" type="VSeparator" parent="HBoxContainer"]
 layout_mode = 2
-text = "Failed:"
 
-[node name="ValFailedRobots" type="Label" parent="VBoxContainer/Grid"]
+[node name="TileConflicts" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
+alignment = 1
+
+[node name="LblConflicts" type="Label" parent="HBoxContainer/TileConflicts"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "ACTIVE CONFLICTS"
+horizontal_alignment = 1
+
+[node name="ValActiveConflicts" type="Label" parent="HBoxContainer/TileConflicts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 20
 text = "0"
+horizontal_alignment = 1
 
-[node name="LblConflicts" type="Label" parent="VBoxContainer/Grid"]
+[node name="VSep5" type="VSeparator" parent="HBoxContainer"]
 layout_mode = 2
-text = "Active Conflicts:"
 
-[node name="ValActiveConflicts" type="Label" parent="VBoxContainer/Grid"]
+[node name="TileReroutes" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
+alignment = 1
+
+[node name="LblReroutes" type="Label" parent="HBoxContainer/TileReroutes"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "REROUTES"
+horizontal_alignment = 1
+
+[node name="ValReroutes" type="Label" parent="HBoxContainer/TileReroutes"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.49, 0.23, 0.93, 1)
+theme_override_font_sizes/font_size = 20
 text = "0"
+horizontal_alignment = 1
 
-[node name="LblCollisions" type="Label" parent="VBoxContainer/Grid"]
+[node name="VSep6" type="VSeparator" parent="HBoxContainer"]
 layout_mode = 2
-text = "Collisions:"
 
-[node name="ValCollisions" type="Label" parent="VBoxContainer/Grid"]
+[node name="TileCollisions" type="PanelContainer" parent="HBoxContainer"]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_collisions_pill")
+
+[node name="VBoxCollisions" type="VBoxContainer" parent="HBoxContainer/TileCollisions"]
+layout_mode = 2
+alignment = 1
+
+[node name="LblCollisions" type="Label" parent="HBoxContainer/TileCollisions/VBoxCollisions"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.45, 0.3, 1)
+theme_override_font_sizes/font_size = 11
+text = "COLLISIONS"
+horizontal_alignment = 1
+
+[node name="ValCollisions" type="Label" parent="HBoxContainer/TileCollisions/VBoxCollisions"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.55, 0.35, 1)
+theme_override_font_sizes/font_size = 22
 text = "0"
+horizontal_alignment = 1
 
-[node name="LblSearches" type="Label" parent="VBoxContainer/Grid"]
-layout_mode = 2
-text = "A* Searches:"
 
-[node name="ValSearches" type="Label" parent="VBoxContainer/Grid"]
+[node name="VSep7" type="VSeparator" parent="HBoxContainer"]
 layout_mode = 2
+
+[node name="TileMessages" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="LblMessages" type="Label" parent="HBoxContainer/TileMessages"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "P2P MESSAGES"
+horizontal_alignment = 1
+
+[node name="ValMessages" type="Label" parent="HBoxContainer/TileMessages"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 20
 text = "0"
+horizontal_alignment = 1
 
-[node name="LblMessages" type="Label" parent="VBoxContainer/Grid"]
+[node name="VSep8" type="VSeparator" parent="HBoxContainer"]
 layout_mode = 2
-text = "Messages:"
 
-[node name="ValMessages" type="Label" parent="VBoxContainer/Grid"]
+[node name="TileSearches" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
+alignment = 1
+
+[node name="LblSearches" type="Label" parent="HBoxContainer/TileSearches"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "A* SEARCHES"
+horizontal_alignment = 1
+
+[node name="ValSearches" type="Label" parent="HBoxContainer/TileSearches"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 20
 text = "0"
+horizontal_alignment = 1
+

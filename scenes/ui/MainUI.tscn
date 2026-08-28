@@ -1,9 +1,69 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/UIManager.gd" id="1_ui_mgr"]
 [ext_resource type="PackedScene" path="res://scenes/ui/RobotPanel.tscn" id="2_robot_panel"]
 [ext_resource type="PackedScene" path="res://scenes/ui/Dashboard.tscn" id="3_dashboard"]
 [ext_resource type="PackedScene" path="res://scenes/ui/ConflictOverlay.tscn" id="4_conflict_overlay"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_topbar"]
+bg_color = Color(1, 1, 1, 0.98)
+border_width_bottom = 1
+border_color = Color(0.88, 0.91, 0.94, 1)
+content_margin_left = 20.0
+content_margin_top = 8.0
+content_margin_right = 20.0
+content_margin_bottom = 8.0
+shadow_color = Color(0, 0, 0, 0.03)
+shadow_size = 4
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_accent"]
+bg_color = Color(0.15, 0.39, 0.92, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.12, 0.32, 0.78, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 14.0
+content_margin_top = 6.0
+content_margin_right = 14.0
+content_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+bg_color = Color(0.97, 0.98, 0.99, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.82, 0.86, 0.9, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0.93, 0.95, 0.98, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.65, 0.72, 0.82, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
 
 [node name="MainUI" type="Control"]
 layout_mode = 3
@@ -16,70 +76,145 @@ mouse_filter = 2
 script = ExtResource("1_ui_mgr")
 
 [node name="TopBar" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 50.0
+offset_bottom = 60.0
 grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_topbar")
 
 [node name="HBox" type="HBoxContainer" parent="TopBar"]
 layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 0
+
+[node name="BrandVBox" type="VBoxContainer" parent="TopBar/HBox"]
+layout_mode = 2
+theme_override_constants/separation = -4
 alignment = 1
 
-[node name="Title" type="Label" parent="TopBar/HBox"]
+[node name="Title" type="Label" parent="TopBar/HBox/BrandVBox"]
 layout_mode = 2
-text = "P-DMAPF  |  WAREHOUSE DIGITAL TWIN  "
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 24
+text = "P-DMAPF"
+
+[node name="Subtitle" type="Label" parent="TopBar/HBox/BrandVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.45, 0.55, 1)
+theme_override_font_sizes/font_size = 10
+text = "DECENTRALIZED FLEET COORDINATION"
+
+[node name="VSeparator1" type="VSeparator" parent="TopBar/HBox"]
+layout_mode = 2
 
 [node name="BtnDemoMode" type="Button" parent="TopBar/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "⚡ HACKATHON DEMO MODE"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_accent")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_accent")
+text = "DEMO MODE"
 
-[node name="VSeparator1" type="VSeparator" parent="TopBar/HBox"]
+[node name="OptScenarios" type="OptionButton" parent="TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+
+[node name="VSeparator2" type="VSeparator" parent="TopBar/HBox"]
 layout_mode = 2
 
 [node name="BtnStartAll" type="Button" parent="TopBar/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "START ALL"
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+text = "START"
 
 [node name="BtnPause" type="Button" parent="TopBar/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "PAUSE"
 
 [node name="BtnReset" type="Button" parent="TopBar/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "RESET"
 
-[node name="VSeparator2" type="VSeparator" parent="TopBar/HBox"]
+[node name="VSeparator3" type="VSeparator" parent="TopBar/HBox"]
 layout_mode = 2
 
 [node name="BtnModeSelect" type="Button" parent="TopBar/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "SELECT"
 
 [node name="BtnBlockAisle" type="Button" parent="TopBar/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "🚧 BLOCK AISLE"
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+text = "BLOCK AISLE"
 
 [node name="BtnAddRobot" type="Button" parent="TopBar/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "+ ADD ROBOT"
 
-[node name="OptScenarios" type="OptionButton" parent="TopBar/HBox"]
+[node name="Spacer" type="Control" parent="TopBar/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OptPathVisibility" type="OptionButton" parent="TopBar/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 
 [node name="ChkDebugMode" type="CheckButton" parent="TopBar/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "DEBUG MODE"
+theme_override_colors/font_color = Color(0.2, 0.25, 0.35, 1)
+theme_override_font_sizes/font_size = 13
+text = "DEBUG"
+
+[node name="VSeparator4" type="VSeparator" parent="TopBar/HBox"]
+layout_mode = 2
+
+
+[node name="StatusBadge" type="Label" parent="TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.06, 0.72, 0.5, 1)
+theme_override_font_sizes/font_size = 14
+text = "RUNNING ●"
 
 [node name="ConflictOverlay" parent="." instance=ExtResource("4_conflict_overlay")]
 unique_name_in_owner = true
@@ -88,24 +223,13 @@ layout_mode = 1
 [node name="RobotPanel" parent="." instance=ExtResource("2_robot_panel")]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_left = 15.0
-offset_top = 65.0
-offset_right = 275.0
-offset_bottom = -15.0
-grow_vertical = 2
 
 [node name="Dashboard" parent="." instance=ExtResource("3_dashboard")]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -255.0
-offset_top = 65.0
-offset_right = -15.0
-offset_bottom = -15.0
-grow_horizontal = 0
-grow_vertical = 2
+offset_left = 15.0
+offset_top = -74.0
+offset_right = -355.0
+offset_bottom = -8.0
+
+
